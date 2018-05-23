@@ -24,11 +24,11 @@ SAS's "formats" library used along with the "PROC FORMAT" statement. It consists
 one type definition of `Labels`, which consists of three dictionaries that take
 symbols as the keys. They are as follows:
 
-- `varlab` - a dictionary used to represent variable labels. They `key` must be a symbol,
+- `var` - a dictionary used to represent variable labels. They `key` must be a symbol,
 representing a column in a dataframe and the `value` is a string that provides a
 description of the variable.
 
-- `vallab` - a dictionary used to represent value labels. The `key` is a symbol,
+- `val` - a dictionary used to represent value labels. The `key` is a symbol,
 representing the label name and the `value` is a dictionary whose keys are integers and
 values are strings.
 
