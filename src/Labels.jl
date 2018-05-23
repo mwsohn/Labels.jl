@@ -1,0 +1,28 @@
+module Labels
+
+# package code goes here
+export Label, varlab, vallab
+
+struct Label
+    var::Dict{Symbol,String}
+    val::Dict{Symbol,Dict}
+    lblname::Dict{Symbol,Symbol}
+
+    Label(var,val,lblname) = new(var,val,lblname)
+    Label() = Label(Dict(),Dict(),Dict())
+end
+
+function varlab(l::Label,v::Symbol)
+    return haskey(l.var,v) ? l.var[v] : ""
+end
+
+function vallab(l::Label,v::Symbol,val::Integer)
+    if haskey(l.lblname,v)
+        lblname = l.lblname[v]
+    else
+        return ""
+    end
+    return haskey(l.val,lblname) ? l.val[lblname][val] : string(val)
+end
+
+end # module
