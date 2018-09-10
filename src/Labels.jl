@@ -1,7 +1,7 @@
 module Labels
 
 # package code goes here
-export Label, varlab, vallab
+export Label, varlab, vallab, lblname, defined
 
 struct Label
     var::Dict{Symbol,String}
@@ -23,6 +23,19 @@ function vallab(l::Label,v::Symbol,val::Integer)
         return ""
     end
     return haskey(l.val,lblname) ? l.val[lblname][val] : string(val)
+end
+
+function defined(l::Label,v::Symbol)
+    return v in collect(keys(l.var)) || v in collect(keys(l.lblname))
+end
+
+function lblname(l::Label,v::Symbol)
+    for k in keys(l.lblname)
+        if l.lblname[k] == v
+            return k
+        end
+    end
+    # return nothing
 end
 
 end # module
