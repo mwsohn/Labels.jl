@@ -13,7 +13,7 @@ This package implements a simple method of labeling DataFrame variables and valu
 To install `Labels`, use the following:
 
 ```
-Pkg.clone("https://github.com/mwsohn/Labels.jl")
+pkg> add https://github.com/mwsohn/Labels.jl
 ```
 
 ## What it is for and how it is defined
