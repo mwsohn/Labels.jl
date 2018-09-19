@@ -13,16 +13,26 @@ struct Label
 end
 
 function varlab(l::Label,v::Symbol)
-    return haskey(l.var,v) ? l.var[v] : ""
+    return haskey(l.var,v) ? l.var[v] : string(v)
 end
 
 function vallab(l::Label,v::Symbol,val::Integer)
     if haskey(l.lblname,v)
         lblname = l.lblname[v]
     else
-        return ""
+        return string(val)
     end
-    return haskey(l.val,lblname) ? l.val[lblname][val] : string(val)
+    return haskey(l.val,lblname) && haskey(l.val[lblname],val) ? l.val[lblname][val] : string(val)
+end
+
+function lblname(l::Label,v::Symbol)
+    if haskey(l.lblname,v)
+        return l.lblname[v]
+    end
+end
+
+function defined(l::Label,lbl::Symbol)
+    return in(lbl,collect(values(l.lblname)))
 end
 
 function defined(l::Label,v::Symbol)
