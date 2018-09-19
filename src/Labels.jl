@@ -30,12 +30,9 @@ function defined(l::Label,v::Symbol)
 end
 
 function lblname(l::Label,v::Symbol)
-    for k in keys(l.lblname)
-        if l.lblname[k] == v
-            return k
-        end
+    if haskey(l.lblname,v)
+        return l.lblname[v]
     end
-    # return nothing
 end
 
 end # module
