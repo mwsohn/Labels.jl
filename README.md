@@ -67,14 +67,6 @@ Dict{Int64,String} with 4 entries:
   3 => "Hispanic"
   1 => "White"
 
-julia> label.lblname[:race] = :racelab
-:racelab
-
-julia> varlab(label,:race)
-"Race/ethnicity"
-
-julia> vallab(label,:race,2)
-"Black"
 ```
 
 ### 2. Building from individual dictionaries
@@ -98,24 +90,18 @@ Dict{Symbol,Dict{Int64,String}} with 3 entries:
     :race   => Dict(4=>"Other",2=>"Black",3=>"Hispanic",1=>"White")
     :sex    => Dict(2=>"Male",1=>"Female")
 
-julia> lblname = Dict(:race => :race, :sex => :sex, :income => :income)
+julia> lblname = Dict(:race => :racelab, :sex => :sexlab, :income => :incomelab)
 Dict{Symbol,Symbol} with 3 entries:
-  :income => :income
-  :race   => :race
-  :sex    => :sex
+  :income => :incomelab
+  :race   => :racelab
+  :sex    => :sexlab
 
 julia> labl = Label(var_labels,val_labels,lblname)
 Labels.Label(Dict(:income=>"Household Income",:race=>"Race/ethnicity",:sex=>"Gender",:age=>"Age in y
 ears"), Dict{Symbol,Dict}(Pair{Symbol,Dict}(:income, Dict(4=>">= \$50,000",2=>"\$25,000 - \$49,999",
 3=>"\$50,000 - \$74,999",1=>"< \$25,000")),Pair{Symbol,Dict}(:race, Dict(4=>"Other",2=>"Black",3=>"H
-ispanic",1=>"White")),Pair{Symbol,Dict}(:sex, Dict(2=>"Male",1=>"Female"))), Dict(:income=>:income,:
-race=>:race,:sex=>:sex))
-
-julia> varlab(labl,:sex)
-"Gender"
-
-julia> vallab(labl,:income,3)
-"\$50,000 - \$74,999"
+ispanic",1=>"White")),Pair{Symbol,Dict}(:sex, Dict(2=>"Male",1=>"Female"))), Dict(:income=>:incomelab,:
+race=>:racelab,:sex=>:sexlab))
 ```
 
 ### 3. Automatic conversion from Stata
@@ -127,3 +113,35 @@ latter of which contains all the variable and value labels defined in the origin
 data set.
 
 ## How it can be used
+
+### 1. A single variable label can be obtained using `varlab` function
+
+```
+julia> varlab(labl,:sex)
+"Gender"
+
+julia> varlab(label,:race)
+"Race/ethnicity"
+```
+
+### 2. A single value label can be obtained using `vallab` function
+
+```
+julia> vallab(label,:race,2)
+"Black"
+
+julia> vallab(labl,:income,3)
+"\$50,000 - \$74,999"
+```
+
+### 3. `lblname` (label name) can be looked up using `lblname` function`
+
+```
+julia> lblname(labl,:income)
+:incomelab
+
+julia> lblname(labl,:sex)
+:sexlab
+```
+
+### 4. `Labels` are supported in manu functions included in the [Stella.jl](https://github.com/mwsohn/Stella.jl) package.
