@@ -36,11 +36,13 @@ values are strings.
 
 The package provides two functions that will assist users with finding labels.
 
-- `varlab(l::Labels,s::Symbol)` - returns the variable description for `s` if it exists in
+- `varlab(l::Label,s::Symbol)` - returns the variable description for `s` if it exists in
 the `l` Labels object; otherwise an empty string will be returned
 
-- `vallab(l::Labels,s::Symbol,i::Int)` - returns the description of the value `i` associated
+- `vallab(l::Label,s::Symbol,i::Int)` - returns the description of the value `i` associated
 with the value label `s`
+
+- `lblname(l::Label,s::Symbol)` - returns the label name (`lblname`) associated with the variable `s`
 
 ## Building Labels
 
@@ -82,13 +84,13 @@ Dict{Symbol,String} with 4 entries:
   :age    => "Age in years"
 
 julia> val_labels = Dict(
-  :race => Dict(1=>"White",2=>"Black",3=>"Hispanic",4=>"Other"),
-  :sex => Dict(1=>"Female",2=>"Male"),
-  :income => Dict(1=>"< \$25,000", 2=>"\$25,000 - \$49,999",3 => "\$50,000 - \$74,999", 4 => ">= \$50,000"))
+  :racelab => Dict(1=>"White",2=>"Black",3=>"Hispanic",4=>"Other"),
+  :sexlab => Dict(1=>"Female",2=>"Male"),
+  :incomelab => Dict(1=>"< \$25,000", 2=>"\$25,000 - \$49,999",3 => "\$50,000 - \$74,999", 4 => ">= \$50,000"))
 Dict{Symbol,Dict{Int64,String}} with 3 entries:
-    :income => Dict(4=>">= \$50,000",2=>"\$25,000 - \$49,999",3=>"\$50,000 - \$74,999",1=>"< \$25,000…
-    :race   => Dict(4=>"Other",2=>"Black",3=>"Hispanic",1=>"White")
-    :sex    => Dict(2=>"Male",1=>"Female")
+    :incomelab => Dict(4=>">= \$50,000",2=>"\$25,000 - \$49,999",3=>"\$50,000 - \$74,999",1=>"< \$25,000…
+    :racelab   => Dict(4=>"Other",2=>"Black",3=>"Hispanic",1=>"White")
+    :sexlab    => Dict(2=>"Male",1=>"Female")
 
 julia> lblname = Dict(:race => :racelab, :sex => :sexlab, :income => :incomelab)
 Dict{Symbol,Symbol} with 3 entries:
@@ -98,9 +100,9 @@ Dict{Symbol,Symbol} with 3 entries:
 
 julia> labl = Label(var_labels,val_labels,lblname)
 Labels.Label(Dict(:income=>"Household Income",:race=>"Race/ethnicity",:sex=>"Gender",:age=>"Age in y
-ears"), Dict{Symbol,Dict}(Pair{Symbol,Dict}(:income, Dict(4=>">= \$50,000",2=>"\$25,000 - \$49,999",
-3=>"\$50,000 - \$74,999",1=>"< \$25,000")),Pair{Symbol,Dict}(:race, Dict(4=>"Other",2=>"Black",3=>"H
-ispanic",1=>"White")),Pair{Symbol,Dict}(:sex, Dict(2=>"Male",1=>"Female"))), Dict(:income=>:incomelab,:
+ears"), Dict{Symbol,Dict}(Pair{Symbol,Dict}(:incomelab, Dict(4=>">= \$50,000",2=>"\$25,000 - \$49,999",
+3=>"\$50,000 - \$74,999",1=>"< \$25,000")),Pair{Symbol,Dict}(:racelab, Dict(4=>"Other",2=>"Black",3=>"H
+ispanic",1=>"White")),Pair{Symbol,Dict}(:sexlab, Dict(2=>"Male",1=>"Female"))), Dict(:income=>:incomelab,:
 race=>:racelab,:sex=>:sexlab))
 ```
 
@@ -144,4 +146,4 @@ julia> lblname(labl,:sex)
 :sexlab
 ```
 
-### 4. `Labels` are supported in manu functions included in the [Stella.jl](https://github.com/mwsohn/Stella.jl) package.
+### 4. `Labels` are supported in many functions included in the [Stella.jl](https://github.com/mwsohn/Stella.jl) package.
