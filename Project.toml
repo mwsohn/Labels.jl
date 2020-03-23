@@ -1,12 +1,6 @@
 name = "Labels"
 uuid = "6d0b4fd8-9bf0-50c8-8d0e-d6c2328e7f2a"
-
-[deps]
+version = 0.0.3
 
 [compat]
 julia = "1"
-
-[extras]
-
-[targets]
-
