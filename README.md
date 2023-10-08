@@ -25,10 +25,16 @@ their keys, and styles.
 
 where `Key` indicates the key for metadata or colmetadata dictionaries, and
 `Location` where the label is saved. For example,
-the key is used to retrieve a Data label from a `df` DataFrame as follows:
+the key is used to save and retrieve a Data label to and from a `df` DataFrame as follows:
 
 ```
-metadata(df,"Data Label")
+metadata!(df,"Data Label","1978 automobile data")
+```
+
+or 
+
+```
+data_description = metadata(df,"Data Label")
 ```
 
 ## Value Dictionary
@@ -121,6 +127,8 @@ Each level of labels are retrieved using:
 `value_dictionary` is used to retrieve the entire value dictionary.
 
 ## How they are used/implemented
+
+
 
 
 
