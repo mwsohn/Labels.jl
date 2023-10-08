@@ -4,7 +4,7 @@ using Labels2
 
 using Documenter
 
-makdedocs(
+makedocs(
     sitename = "Labels2.jl",
     modules  = [Labels2],
     pages    = [
