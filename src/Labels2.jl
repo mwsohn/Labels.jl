@@ -247,7 +247,7 @@ end
     set_value_label_key!(df::AbstractDataFrame, colname::Union{Symbol,String}, vlabname::Symbol)
     set_value_label_key!(_df::AbstractDataFrame,vlabnames::Dict)
 
-Saves a value label key to the colmetadata for a column if a column name is passed. If a dictionary
+Saves a value label to the colmetadata for a column if a column name is passed. If a dictionary
 with column names and their value label keys is passed, all of them will be saved in the colmetadata
 with "Value Label Key" as the key and `:default` as the style.
 """
