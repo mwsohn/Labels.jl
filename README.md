@@ -55,14 +55,19 @@ vlib = Dict(
 the race values to their descriptions:
 
 1 = White
+
 2 = Black
+
 3 = Hispanic
+
 4 = Other
 
 Likewise, `:bmilab` is the key to a dictionary that maps BMI values to their descriptions:
 
 1 = Normal (< 25)
+
 2 = Overweight (25 - 29.9)
+
 3 = Obese (≥ 30)
 
 The Value Dictionary is therefore a collection of value descriptions saved as a metadata
