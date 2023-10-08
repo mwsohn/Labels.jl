@@ -21,7 +21,7 @@ their keys, and styles.
 | Data             | Data Label       | metadata     | :default  | String         |
 | Column           | Column Label     | colmetadata  | :note     | String         |
 | Value Dictionary | Value Dictionary | metadata     | :default  | Dictionary     |
-| Value Key        | Value Key        | colmetadata  | :default  | Symbol         |
+| Value Label Key  | Value Label Key  | colmetadata  | :default  | Symbol         |
 
 where `Key` indicates the key for metadata or colmetadata dictionaries, and
 `Location` where the label is saved. For example,
@@ -39,8 +39,8 @@ data_description = metadata(df,"Data Label")
 
 ## Value Dictionary
 
-A Value Dictionary is a dictionary whose keys are value labels and whose values
-are dictionaries of value => description pairs. So it is a dictionary of dictionaries.
+A Value Dictionary is a dictionary of "value labels" whose keys are Value Label Keys and whose values
+are dictionaries of value => description pairs.  
 
 An example of a value dictionary consisting of two value labels:
 
@@ -51,7 +51,7 @@ vlib = Dict(
 )
 ```
 
-`vlib` is a name of the Value Dictionary; `:racelab` is the key (Value Label) to a dictionary that maps
+`vlib` is a name of the Value Dictionary; `:racelab` is the key (Value Label Key) to a dictionary that maps
 the race values to their descriptions:
 
 1 = White\
@@ -65,7 +65,7 @@ Likewise, `:bmilab` is the key to a dictionary that maps BMI values to their des
 2 = Overweight (25 - 29.9)\
 3 = Obese (≥ 30)
 
-The Value Dictionary is therefore a collection of value descriptions saved as a metadata
+The Value Dictionary is therefore a collection of "value labels" saved as a metadata
 object. These value descriptions are linked to each column using a value label. A value label
 should be a Symbol and saved as a colmetadata object.
 
