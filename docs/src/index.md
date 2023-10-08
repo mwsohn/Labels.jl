@@ -7,12 +7,6 @@ Three levels of labels are implemented in this package. The first is the descipt
 It can be used to attach a short description of the data set. The second is column (or variable) descriptions. 
 The third is the value labels that attaches descriptions to each value in a variable. 
 
-## Installation
-
-```
-    ] add https://github.com/mwsohn/Labels2.jl
-```
-
 ## Labels for the Julia DataFrames
 
 This package uses metadata and colmetadata implemented in DataAPI. The following table shows label types,
@@ -242,10 +236,3 @@ get_labels
 set_labels!
 ```
 
-
-
-
-
-
-
-    value_label, Label
