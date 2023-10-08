@@ -185,7 +185,7 @@ data_label
 ```
 
 ```@docs
-delete_data_label
+delete_data_label!
 ```
 
 ```@docs
@@ -201,7 +201,7 @@ delete_col_label!
 ```
 
 ```@docs
-set set_value_dict!
+set_value_dict!
 ```
 
 ```@docs
@@ -226,13 +226,5 @@ delete_value_key!
 
 ```@docs
 value_label
-```
-
-```@docs
-get_labels
-```
-
-```@docs
-set_labels!
 ```
 
