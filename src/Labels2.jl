@@ -16,7 +16,7 @@ using DataFrames
 
 export set_data_label!, data_label, delete_data_label!,
     set_col_label!, col_label, delete_col_label!,
-    set_lblname!, lblname, delete_lblname!,
+    set_value_key!, value_key, delete_value_key!,
     set_value_dict!, value_dict, delete_value_dict!,
     value_label, Label
 
@@ -24,9 +24,9 @@ struct Label
     data::String
     var::Dict{Symbol,String}
     val::Dict{Symbol,Dict}
-    valname::Dict{Symbol,Symbol}
+    valkey::Dict{Symbol,Symbol}
 
-    Label(data, var, val, valname) = new(data, var, val, valname)
+    Label(data, var, val, valkey) = new(data, var, val, valkey)
     Label() = Label(String, Dict(), Dict(), Dict())
 end
 
@@ -75,6 +75,8 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
 
     # value dictionary
     if length(label.val) > 0
+        # select value labels linked to a column in the DataFrame
+        # not implemented yet
         metadata!(_df, label.val, "Value Dictionary", style=:default)
     end
 
@@ -93,6 +95,25 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
 
     return nothing
 end
+
+function select_labels(df::AbstractDataFrame, valdict::Dict)
+
+    vdict = Dict()
+    vkeys = keys(value_key(df)) # value_key returns a dictionary whose keys are value label keys
+
+    for el in keys(valdict)
+        if el in vkeys
+            vdict[el] = valdict[el]
+        end
+    end
+
+    if length(vdict) > 0
+        return vdict
+    end
+
+    return nothing
+end
+
 
 """
     set_data_label!(df::AbstractDataFrame,label::String)
@@ -244,30 +265,30 @@ function delete_col_label!(_df::AbstractDataFrame)
 end
 
 """
-    set_value_label_key!(df::AbstractDataFrame, colname::Union{Symbol,String}, vlabname::Symbol)
-    set_value_label_key!(_df::AbstractDataFrame,vlabnames::Dict)
+    set_value_key!(df::AbstractDataFrame, colname::Union{Symbol,String}, vlabname::Symbol)
+    set_value_key!(_df::AbstractDataFrame,vlabnames::Dict)
 
 Saves a value label to the colmetadata for a column if a column name is passed. If a dictionary
 with column names and their value label keys is passed, all of them will be saved in the colmetadata
 with "Value Label Key" as the key and `:default` as the style.
 """
-function set_value_label_key!(_df::AbstractDataFrame, varname::Union{Symbol,String}, vlabname::Symbol)
+function set_value_key!(_df::AbstractDataFrame, varname::Union{Symbol,String}, vlabname::Symbol)
     colmetadata!(_df,varname,"Value Label Key",vlabname)
     return nothing
 end
-function set_value_label_key!(_df::AbstractDataFrame,vlabnames::Dict)
+function set_value_key!(_df::AbstractDataFrame,vlabnames::Dict)
     for v in keys(vlabnames)
         colmetadata!(_df, v, "Value Label Key", vlabnames[v])
     end
     return nothing
 end
 
-function value_label_key(_df::AbstractDataFrame, varname::Union{Symbol,String})
+function value_key(_df::AbstractDataFrame, varname::Union{Symbol,String})
     if "Value Label Key" in colmetadatakeys(_df,varname)
         return colmetadata(_df,varname,"Value Label Key")
     end
 end
-function value_label_key(_df::AbstractDataFrame, varnames::AbstractVector)
+function value_key(_df::AbstractDataFrame, varnames::AbstractVector)
     ldict = Dict()
     for v in varnames
         if haskey(colmetadata(_df,v),"Value Label Key")
@@ -279,7 +300,7 @@ function value_label_key(_df::AbstractDataFrame, varnames::AbstractVector)
     end
     return nothing
 end
-function value_label_key(_df::AbstractDataFrame)
+function value_key(_df::AbstractDataFrame)
     valdict = Dict()
     for v in propertynames(_df)
         if "Value Label Key" in colmetadatakeys(_df, v)
@@ -293,21 +314,21 @@ function value_label_key(_df::AbstractDataFrame)
 end
 
 """
-    delete_value_label_key!(_df::AbstractDataFrame, varname::Union{Symbol,String})
-    delete_value_label_key!(_df::AbstractDataFrame, colnames::AbstractVector)
-    delete_value_label_key!(_df::AbstractDataFrame)
+    delete_value_key!(_df::AbstractDataFrame, varname::Union{Symbol,String})
+    delete_value_key!(_df::AbstractDataFrame, colnames::AbstractVector)
+    delete_value_key!(_df::AbstractDataFrame)
 
 Deletes value label keys. If a single column name is passed, only the key attached to the column
 name will be deleted. If a vector column names is passed, all the keys for all columns in the vector
 will be deleted. If just the `df` is passed, all value label keys in the `df` will be deleted.
 """
-function delete_value_label_key!(_df::AbstractDataFrame, varname::Union{Symbol,String})
+function delete_value_key!(_df::AbstractDataFrame, varname::Union{Symbol,String})
     if "Value Label Key" in colmetadatakeys(_df, varname)
         deletecolmetadata!(_df, varname, "Value Label Key")
     end
     return nothing
 end
-function delete_value_label_key!(_df::AbstractDataFrame, colnames::AbstractVector)
+function delete_value_key!(_df::AbstractDataFrame, colnames::AbstractVector)
     for v in colnames
         if "Value Label Key" in colmetadatakeys(_df, v)
             deletecolmetadata!(_df, v, "Value Label Key")
@@ -315,7 +336,7 @@ function delete_value_label_key!(_df::AbstractDataFrame, colnames::AbstractVecto
     end
     return nothing
 end
-function delete_value_label_key!(_df::AbstractDataFrame)
+function delete_value_key!(_df::AbstractDataFrame)
     for v in propertynames(_df)
         if "Value Label Key" in colmetadatakeys(_df, v)
             deletecolmetadata!(_df, v, "Value Label Key")
@@ -335,7 +356,7 @@ names is returned.
 """
 function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     valdict = value_dict(_df)
-    lname = value_label_key(_df,varname)
+    lname = value_key(_df,varname)
     if length(valdict) > 0 && haskey(valdict,lname)
         return Dict(varname => valdict[lname])
     end
