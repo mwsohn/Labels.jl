@@ -27,91 +27,7 @@ struct Label
     valkey::Dict{Symbol,Symbol}
 
     Label(data, var, val, valkey) = new(data, var, val, valkey)
-    Label() = Label(String, Dict(), Dict(), Dict())
-end
-
-"""
-    get_labels(df::AbstractDataFrame)
-
-Extracts all labels saved in the `df` DataFrame and returns them
-as a Label object.
-"""
-function get_labels(_df::AbstractDataFrame)
-
-    label = Label()
-
-    # data label
-    if "Data Label" in metadatakeys(_df)
-        label.data = metadata(_df,"Data Label")
-    end
-
-    # value dictionary
-    if "Value Dictionary" in metadatakeys(_df)
-        label.val = metadata(_df,"Value Dictionary")
-    end
-
-    for v in propertynames(_df)
-
-        # column labels
-        if "Column Label" in colmetadatakeys(_df, v)
-            label.var[v] = colmetadata(_df,v,"Column Label")
-        end
-
-        # value label names
-        if "Value Label Key" in colmetadatakeys(_df, v)
-            label.valname[v] = colmetadata(_df,v,"Value Label Key")
-        end
-    end
-
-    return label
-end
-
-function set_labels!(_df::AbstractDataFrame, label::Dict)
-
-    # data label
-    if label.data != nothing || label.data != ""
-        metadata!(_df, label.data, "Data Label", style=:default)
-    end
-
-    # value dictionary
-    if length(label.val) > 0
-        # select value labels linked to a column in the DataFrame
-        # not implemented yet
-        metadata!(_df, label.val, "Value Dictionary", style=:default)
-    end
-
-    for v in propertynames(_df)
-
-        # column labels
-        if haskey(label.var,v)
-            colmetadata!(_df, v, "Column Label", label.var[v], style=:note)
-        end
-
-        # value label names
-        if haskey(label.val,v)
-            colmetadata!(_df, v, "Value Label Key", label.val[v], style=:default)
-        end
-    end
-
-    return nothing
-end
-
-function select_labels(df::AbstractDataFrame, valdict::Dict)
-
-    vdict = Dict()
-    vkeys = keys(value_key(df)) # value_key returns a dictionary whose keys are value label keys
-
-    for el in keys(valdict)
-        if el in vkeys
-            vdict[el] = valdict[el]
-        end
-    end
-
-    if length(vdict) > 0
-        return vdict
-    end
-
-    return nothing
+    Label() = Label(String, Dict(), Dict(), Dict() )
 end
 
 
@@ -283,6 +199,13 @@ function set_value_key!(_df::AbstractDataFrame,vlabnames::Dict)
     return nothing
 end
 
+"""
+    value_key(df::AbstractDataFrame, varname::Union{Symbol,String})
+    value_key(df::AbstractDataFrame, varnames::AbstractVector)
+    value_key(df::AbstractDataFrame)
+
+Returns value keys from a `df` DataFrame.
+"""
 function value_key(_df::AbstractDataFrame, varname::Union{Symbol,String})
     if "Value Label Key" in colmetadatakeys(_df,varname)
         return colmetadata(_df,varname,"Value Label Key")
@@ -375,5 +298,91 @@ function value_label(_df::AbstractDataFrame, varnames::AbstractVector)
     return nothing
 end
 
+
+"""
+    get_labels(df::AbstractDataFrame)
+
+Extracts all labels saved in the `df` DataFrame and returns them
+as a Label object.
+"""
+function get_labels(_df::AbstractDataFrame)
+
+    label = Label()
+
+    # data label
+    if "Data Label" in metadatakeys(_df)
+        label.data = metadata(_df, "Data Label")
+    end
+
+    # value dictionary
+    if "Value Dictionary" in metadatakeys(_df)
+        label.val = metadata(_df, "Value Dictionary")
+    end
+
+    for v in propertynames(_df)
+
+        # column labels
+        if "Column Label" in colmetadatakeys(_df, v)
+            label.var[v] = colmetadata(_df, v, "Column Label")
+        end
+
+        # value label names
+        if "Value Label Key" in colmetadatakeys(_df, v)
+            label.valname[v] = colmetadata(_df, v, "Value Label Key")
+        end
+    end
+    return label
+end
+
+"""
+    set_labels!(df::AbstractDataFrame, label::Dict)
+
+Saves labels in the `df` DataFrame. It only saves the value
+labels linked to a column in the the DataFrame.
+"""
+function set_labels!(_df::AbstractDataFrame, label::Dict)
+
+    # data label
+    if label.data != nothing || label.data != ""
+        metadata!(_df, label.data, "Data Label", style=:default)
+    end
+
+    # value dictionary
+    if length(label.val) > 0
+        metadata!(_df, select_labels(label.val), "Value Dictionary", style=:default)
+    end
+
+    for v in propertynames(_df)
+
+        # column labels
+        if haskey(label.var, v)
+            colmetadata!(_df, v, "Column Label", label.var[v], style=:note)
+        end
+
+        # value label names
+        if haskey(label.val, v)
+            colmetadata!(_df, v, "Value Label Key", label.val[v], style=:default)
+        end
+    end
+    return nothing
+end
+
+function select_labels(df::AbstractDataFrame, valdict::Dict)
+
+    vdict = Dict()
+    vkeys = keys(value_key(df)) # value_key returns a dictionary whose keys are value label keys
+
+    for el in keys(valdict)
+        if el in vkeys
+            vdict[el] = valdict[el]
+        end
+    end
+
+    if length(vdict) > 0
+        return vdict
+    end
+
+    return nothing
+end
 
 end # end of module
