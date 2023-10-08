@@ -349,10 +349,10 @@ end
     value_label(df::AbstractDataFrame, varname::Union{Symbol,String})
     value_label(df::AbstractDataFrame, varnames::AbstractVector)
 
-Returns value labels. If a column name is specified, the dictionary of
-value labels is returned. If a vector of column names are passed,
-a dictionary of dictionaries of value lables whose keys are column
-names is returned.
+Returns value labels. If a column name is specified, a dictionary of
+value labels for the column is returned. The key is the column name.
+If a vector of column names is passed, a dictionary of dictionaries
+of value lables whose keys are column names is returned.
 """
 function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     valdict = value_dict(_df)
