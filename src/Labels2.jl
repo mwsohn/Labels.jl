@@ -14,11 +14,20 @@ using DataFrames
 ##
 ##############################################################################
 
-export set_data_label!, data_label, delete_data_label!,
-    set_col_label!, col_label, delete_col_label!,
-    set_value_key!, value_key, delete_value_key!,
-    set_value_dict!, value_dict, delete_value_dict!,
-    value_label, Label
+export set_data_label!, 
+    data_label, 
+    delete_data_label!,
+    set_col_label!, 
+    col_label, 
+    delete_col_label!,
+    set_value_key!, 
+    value_key, 
+    delete_value_key!,
+    set_value_dict!, 
+    value_dict, 
+    delete_value_dict!,
+    value_label, 
+    Label
 
 struct Label
     data::String
