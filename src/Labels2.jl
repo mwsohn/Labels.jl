@@ -27,7 +27,9 @@ export set_data_label!,
     value_dict, 
     delete_value_dict!,
     value_label, 
-    Label
+    Label,
+    varlab,varlabs,
+    vallab
 
 struct Label
     data::String
@@ -411,6 +413,45 @@ function select_labels(df::AbstractDataFrame, valdict::Dict)
     end
 
     return nothing
+end
+
+
+"""
+    varlab(l::Label,v::Symbol)
+
+Produces the variable description associated with the `v` variable in the `l` Labels.
+"""
+function varlab(l::Label, v::Symbol)
+    return haskey(l.var, v) ? l.var[v] : string(v)
+end
+
+"""
+    varlabs(l::Label,vv::Vector{Symbol})
+
+Produces a vector of variable descriptions associated with variables
+in the `vv` vector from the `l` Labels.
+"""
+function varlabs(l::Label, vv::Vector{Symbol})
+    vec = []
+    for v in vv
+        push!(vec, haskey(l.var, v) ? l.var[v] : string(v))
+    end
+    return vec
+end
+
+"""
+    vallab(l::Label,v::Symbol,val)
+
+Returns the value label associated with `val` value for the `v` variable in the `l` Labels.
+"""
+function vallab(l::Label, v::Symbol, val)
+    lname = lblname(l, v)
+
+    if lname == nothing
+        return string(val)
+    end
+
+    return haskey(l.val, lname) && haskey(l.val[lname], val) ? l.val[lname][val] : string(val)
 end
 
 end # end of module
