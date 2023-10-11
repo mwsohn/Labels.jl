@@ -79,11 +79,15 @@ end
 
 """
     set_value_dict!(df::AbstractDataFrame,vlib::Dict)
+    set_value_dict!(df::AbstractDataFrame,key::Symbol,value::Dict)
+
 
 Saves a value dictionary in the `df` as a metadata under "Value Dictionary"
 as the key and `:default` as the style. A value dictionary is a dictionary, whose
 keys are symbols known as "value labels" and values are
-a dictionary of value-description pairs.
+a dictionary of value-description pairs. If you pass a key (label name) and a value label
+(a dictionary of value-description pairs), you can add one value label to the existing
+value dictionary.
 
 An example of a value dictionary consisting of two value labels:
 
@@ -94,6 +98,21 @@ vlib = Dict(
 """
 function set_value_dict!(_df::AbstractDataFrame,vlib::Dict)
     metadata!(_df,"Value Dictionary",vlib, style=:default)
+    return nothing
+end
+function set_value_dict!(_df::AbstractDataFrame,:vkey::Symbol,vvalue::Dict)
+    if "Value Dictionary" in metadatakeys(_df)
+        vlib = metadata(_df,"Value Dictionary")
+    else
+        # empty dictionary
+        vlib = Dict()
+    end
+
+    vlib[vkey] = vvalue
+
+    if length(vlib) > 0
+        set_value_dict!(_df,vlib)
+    end
     return nothing
 end
 
