@@ -296,7 +296,7 @@ function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
 end
 function value_label(_df::AbstractDataFrame, varnames::AbstractVector)
     valdict = value_dict(_df) 
-    lname = lblname(_df,varnames)
+    lname = value_key(_df,varnames)
     if length(valdict) == 0 || length(lname) == 0
         return nothing
     end
