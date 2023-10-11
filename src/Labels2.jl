@@ -100,7 +100,7 @@ function set_value_dict!(_df::AbstractDataFrame,vlib::Dict)
     metadata!(_df,"Value Dictionary",vlib, style=:default)
     return nothing
 end
-function set_value_dict!(_df::AbstractDataFrame,:vkey::Symbol,vvalue::Dict)
+function set_value_dict!(_df::AbstractDataFrame,vkey::Symbol,vvalue::Dict)
     if "Value Dictionary" in metadatakeys(_df)
         vlib = metadata(_df,"Value Dictionary")
     else
