@@ -310,7 +310,7 @@ of value lables whose keys are column names is returned.
 function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     valdict = value_dict(_df)
     lname = value_key(_df,varname)
-    if length(valdict) > 0 && haskey(valdict,lname)
+    if valdict != nothing && haskey(valdict,lname)
         return Dict(varname => valdict[lname])
     end
     return nothing
