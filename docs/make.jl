@@ -1,17 +1,17 @@
 push!(LOAD_PATH,"../src/")
 
-using Labels2
+using Labels
 
 using Documenter
 
 makedocs(
-    sitename = "Labels2.jl",
-    modules  = [Labels2],
+    sitename = "Labels.jl",
+    modules  = [Labels],
     pages    = [
         "Home" => "index.md"
     ]
 )
 
 deploydocs(;
-    repo = "github.com/mwsohn/Labels2.jl"
+    repo = "github.com/mwsohn/Labels.jl"
 )

@@ -1,11 +1,11 @@
-# Labels2.jl
+# Labels.jl
 
 ## Overview
 
 A package to save and retrieve data, variable, and value labels in Julia DataFrames metadata and colmetadata.
 Three levels of labels are implemented in this package. The first is the desciption of the data set itself.
 It can be used to attach a short description of the data set. The second is column (or variable) descriptions. 
-The third is the value labels that attaches descriptions to each value in a variable. 
+The third is the value labels that attaches descriptions to each value in a variable.
 
 ## Labels for the Julia DataFrames
 
@@ -83,7 +83,7 @@ saves the data description to the `auto` DataFrame.
 
 
 ```
-set_col_label!(auto,:mpg, "Mileage (mpg)")
+set_col_label!(auto, :mpg, "Mileage (mpg)")
 ```
 
 is used to save a column description "Mileage (mpg)" for `:mpg`.
@@ -110,9 +110,23 @@ set_value_dict!(df,vlib)
 The value names (or keys) can be saved one at a time or as a set using
 
 ```
+set_value_dict!(df,:valkey, vdict)
+```
+
+A single value label can be added to the value dictionary, where `valkey`
+is the key of the value label and `vdict` is the value, which itself is
+a dictionary of value-description pairs.
+
+After you add a value label to the value dictionary, you need to associate
+the value key to the column name using `set_value_key!` as follows:
+
+```
 set_value_key!(df,:bmi, :bmilab)
 set_value_key!(df, Dict(:race => :racelab, :bmi => :bmilab))
 ```
+
+where `:racelab` and `:bmilab` are both value keys and `:race` and `:bmi`
+are column names.
 
 ## How to retrieve labels
 
@@ -130,7 +144,7 @@ Each level of labels are retrieved using:
 
 
 
-## Labels
+## Label comosite type
 
 `Label` is composite type to be used as a container for saving all labels from a
 DataFrame. It is provided as a convenience tool for managing labels.

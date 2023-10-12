@@ -1,4 +1,4 @@
-# Labels2
+# Labels
 
 A package to save and retrieve data, variable, and value labels in Julia DataFrames metadata and colmetadata.
 Three levels of labels are implemented in this package. The first is the desciption of the data set itself.
@@ -8,7 +8,7 @@ The third is the value labels
 ## Installation
 
 ```
-    ] add https://github.com/mwsohn/Labels2.jl
+    ] add https://github.com/mwsohn/Labels.jl
 ```
 
 ## Labels for the Julia DataFrames

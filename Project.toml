@@ -1,8 +1,9 @@
-name = "Labels2"
+name = "Labels"
 uuid = "f9646e2d-b2ca-42b3-a13a-670e2cbf7c40"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DataAPI = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 
 [compat]
 
