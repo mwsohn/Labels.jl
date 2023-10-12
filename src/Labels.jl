@@ -318,7 +318,7 @@ end
 function value_label(_df::AbstractDataFrame, varnames::AbstractVector)
     valdict = value_dict(_df) 
     lname = value_key(_df,varnames)
-    if valdict == nothing || length(lname) == 0
+    if valdict == nothing || lname == nothing
         return nothing
     end
     vdict = Dict(x => valdict[lname[x]] for x in keys(lname))
