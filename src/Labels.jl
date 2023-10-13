@@ -48,10 +48,10 @@ end
 Saves a data `label` to the `df` DataFrame. A data label is a description of the DataFrame.
 It does not return anything nor generates any message. 
 It saves the `label` as a metadata in the `df` with the "Data Label"
-as the key and `:default` as the style. 
+as the key and `:note` as the style. 
 """
 function set_data_label!(_df::AbstractDataFrame,label::String)
-    metadata!(_df,"Data Label",label,style=:default)
+    metadata!(_df,"Data Label",label,style=:note)
     return nothing
 end
 
@@ -85,7 +85,7 @@ end
 
 
 Saves a value dictionary in the `df` as a metadata under "Value Dictionary"
-as the key and `:default` as the style. A value dictionary is a dictionary, whose
+as the key and `:note` as the style. A value dictionary is a dictionary, whose
 keys are symbols known as "value labels" and values are
 a dictionary of value-description pairs. If you pass a key (label name) and a value label
 (a dictionary of value-description pairs), you can add one value label to the existing
@@ -99,7 +99,7 @@ vlib = Dict(
 )
 """
 function set_value_dict!(_df::AbstractDataFrame,vlib::Dict)
-    metadata!(_df,"Value Dictionary",vlib, style=:default)
+    metadata!(_df,"Value Dictionary",vlib, style=:note)
     return nothing
 end
 function set_value_dict!(_df::AbstractDataFrame,vkey::Symbol,vvalue::Dict)
@@ -216,7 +216,7 @@ end
 
 Saves a value label to the colmetadata for a column if a column name is passed. If a dictionary
 with column names and their value label keys is passed, all of them will be saved in the colmetadata
-with "Value Label Key" as the key and `:default` as the style.
+with "Value Label Key" as the key and `:note` as the style.
 """
 function set_value_key!(_df::AbstractDataFrame, varname::Union{Symbol,String}, vlabname::Symbol)
     colmetadata!(_df,varname,"Value Label Key",vlabname)
@@ -374,12 +374,12 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
 
     # data label
     if label.data != nothing || label.data != ""
-        metadata!(_df, label.data, "Data Label", style=:default)
+        metadata!(_df, label.data, "Data Label", style=:note)
     end
 
     # value dictionary
     if length(label.val) > 0
-        metadata!(_df, select_labels(label.val), "Value Dictionary", style=:default)
+        metadata!(_df, select_labels(label.val), "Value Dictionary", style=:note)
     end
 
     for v in propertynames(_df)
@@ -391,7 +391,7 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
 
         # value label names
         if haskey(label.val, v)
-            colmetadata!(_df, v, "Value Label Key", label.val[v], style=:default)
+            colmetadata!(_df, v, "Value Label Key", label.val[v], style=:note)
         end
     end
     return nothing
