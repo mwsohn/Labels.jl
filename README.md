@@ -18,13 +18,14 @@ their keys, and styles.
 
 | Type             | Key              | Location     | Style     | Julia Datatype |
 | :--------------- | :--------------- | :----------- | :-------- | :------------- |
-| Data             | Data Label       | metadata     | :default  | String         |
+| Data             | Data Label       | metadata     | :note     | String         |
 | Column           | Column Label     | colmetadata  | :note     | String         |
-| Value Dictionary | Value Dictionary | metadata     | :default  | Dictionary     |
-| Value Label Key  | Value Label Key  | colmetadata  | :default  | Symbol         |
+| Value Dictionary | Value Dictionary | metadata     | :note     | Dictionary     |
+| Value Label Key  | Value Label Key  | colmetadata  | :note     | Symbol         |
 
 where `Key` indicates the key for metadata or colmetadata dictionaries, and
-`Location` where the label is saved. For example,
+`Location` where the label is saved. `Style` indicates the style of metadata used for
+how the information will be propagated when the dataframe is mutated. For example,
 the key is used to save and retrieve a Data label to and from a `df` DataFrame as follows:
 
 ```
