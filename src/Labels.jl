@@ -219,12 +219,12 @@ with column names and their value label keys is passed, all of them will be save
 with "Value Label Key" as the key and `:note` as the style.
 """
 function set_value_key!(_df::AbstractDataFrame, varname::Union{Symbol,String}, vlabname::Symbol)
-    colmetadata!(_df,varname,"Value Label Key",vlabname)
+    colmetadata!(_df,varname,"Value Label Key",vlabname, style=:note)
     return nothing
 end
 function set_value_key!(_df::AbstractDataFrame,vlabnames::Dict)
     for v in keys(vlabnames)
-        colmetadata!(_df, v, "Value Label Key", vlabnames[v])
+        colmetadata!(_df, v, "Value Label Key", vlabnames[v], style=:note)
     end
     return nothing
 end
@@ -311,7 +311,7 @@ function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     valdict = value_dict(_df)
     lname = value_key(_df,varname)
     if valdict != nothing && haskey(valdict,lname)
-        return valdict[lname]
+        return valdict[lname])
     end
     return nothing
 end
