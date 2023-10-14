@@ -311,7 +311,7 @@ function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     valdict = value_dict(_df)
     lname = value_key(_df,varname)
     if valdict != nothing && haskey(valdict,lname)
-        return valdict[lname])
+        return valdict[lname]
     end
     return nothing
 end
