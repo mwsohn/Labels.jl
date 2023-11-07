@@ -379,7 +379,7 @@ function set_labels!(_df::AbstractDataFrame, label::Label)
 
     # value dictionary
     if length(label.val) > 0
-        metadata!(_df, select_labels(label.val), "Value Dictionary", style=:note)
+        metadata!(_df, select_labels(_df,label.val), "Value Dictionary", style=:note)
     end
 
     for v in propertynames(_df)
