@@ -365,12 +365,12 @@ function get_labels(_df::AbstractDataFrame)
 end
 
 """
-    set_labels!(df::AbstractDataFrame, label::Dict)
+    set_labels!(df::AbstractDataFrame, label::Label)
 
 Saves labels in the `df` DataFrame. It only saves the value
 labels linked to a column in the the DataFrame.
 """
-function set_labels!(_df::AbstractDataFrame, label::Dict)
+function set_labels!(_df::AbstractDataFrame, label::Label)
 
     # data label
     if label.data != nothing || label.data != ""
