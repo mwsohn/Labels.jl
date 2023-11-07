@@ -38,7 +38,7 @@ struct Label
     valkey::Dict{Symbol,Symbol}
 
     Label(data, var, val, valkey) = new(data, var, val, valkey)
-    Label() = Label(String, Dict(), Dict(), Dict() )
+    Label() = Label("", Dict(), Dict(), Dict() )
 end
 
 
