@@ -20,14 +20,14 @@ export set_data_label!, data_label, delete_data_label!,
     set_value_dict!, value_dict, delete_value_dict!, value_label, 
     Label, varlab, varlabs, vallab
 
-struct Label
+mutable struct Label
     data::String
     var::Dict{Symbol,String}
     val::Dict{Symbol,Dict}
     valkey::Dict{Symbol,Symbol}
 
     Label(data, var, val, valkey) = new(data, var, val, valkey)
-    # Label() = Label("", Dict(), Dict(), Dict() )
+    Label() = Label("", Dict(), Dict(), Dict() )
 end
 
 
