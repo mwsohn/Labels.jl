@@ -303,7 +303,7 @@ function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
     if valdict != nothing && haskey(valdict,lname)
         return valdict[lname]
     end
-    return sort(unique(_df[!,varname))
+    return sort(unique(_df[!,varname])
 end
 function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String}, v)
     vlab = value_label(_df,varname)
