@@ -14,22 +14,11 @@ using DataFrames, DataAPI
 ##
 ##############################################################################
 
-export set_data_label!, 
-    data_label, 
-    delete_data_label!,
-    set_col_label!, 
-    col_label, 
-    delete_col_label!,
-    set_value_key!, 
-    value_key, 
-    delete_value_key!,
-    set_value_dict!, 
-    value_dict, 
-    delete_value_dict!,
-    value_label, 
-    Label,
-    varlab,varlabs,
-    vallab
+export set_data_label!, data_label, delete_data_label!,
+    set_col_label!, col_label, delete_col_label!,
+    set_value_key!, value_key, delete_value_key!,
+    set_value_dict!, value_dict, delete_value_dict!, value_label, 
+    Label, varlab, varlabs, vallab
 
 struct Label
     data::String
@@ -38,7 +27,7 @@ struct Label
     valkey::Dict{Symbol,Symbol}
 
     Label(data, var, val, valkey) = new(data, var, val, valkey)
-    Label() = Label(String, Dict(), Dict(), Dict() )
+    # Label() = Label("", Dict(), Dict(), Dict() )
 end
 
 
@@ -445,7 +434,7 @@ end
 Returns the value label associated with `val` value for the `v` variable in the `l` Labels.
 """
 function vallab(l::Label, v::Symbol, val)
-    lname = lblname(l, v)
+    lname = val_key(l, v)
 
     if lname == nothing
         return string(val)
