@@ -176,7 +176,7 @@ function col_label(_df::AbstractDataFrame,varname::Union{String,Symbol})
     if "Column Label" in colmetadatakeys(_df,varname)
         return colmetadata(_df,varname,"Column Label")
     end
-    return nothing
+    return string(varname)
 end
 
 """
@@ -304,6 +304,13 @@ function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String})
         return valdict[lname]
     end
     return nothing
+end
+function value_label(_df::AbstractDataFrame, varname::Union{Symbol,String}, v)
+    vlab = value_label(_df,varname)
+    if vlab == nothing || haskey(vlab, v) == false
+        return v
+    end
+    return value_label(_df,varname)[v]
 end
 function value_label(_df::AbstractDataFrame, varnames::AbstractVector)
     valdict = value_dict(_df) 
