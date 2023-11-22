@@ -354,12 +354,12 @@ function get_labels(_df::AbstractDataFrame)
 end
 
 """
-    set_labels!(df::AbstractDataFrame, label::Dict)
+    set_labels!(df::AbstractDataFrame, label::Label)
 
 Saves labels in the `df` DataFrame. It only saves the value
 labels linked to a column in the the DataFrame.
 """
-function set_labels!(_df::AbstractDataFrame, label::Dict)
+function set_labels!(_df::AbstractDataFrame, label::Label)
 
     # data label
     if label.data != nothing || label.data != ""
@@ -368,7 +368,7 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
 
     # value dictionary
     if length(label.val) > 0
-        metadata!(_df, select_labels(label.val), "Value Dictionary", style=:note)
+        metadata!(_df, "Value Dictionary", select_labels(_df,label.val), style=:note)
     end
 
     for v in propertynames(_df)
@@ -379,8 +379,8 @@ function set_labels!(_df::AbstractDataFrame, label::Dict)
         end
 
         # value label names
-        if haskey(label.val, v)
-            colmetadata!(_df, v, "Value Label Key", label.val[v], style=:note)
+        if haskey(label.valkey, v)
+            colmetadata!(_df, v, "Value Label Key", label.valkey[v], style=:note)
         end
     end
     return nothing
