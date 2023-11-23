@@ -117,6 +117,7 @@ function value_dict(_df::AbstractDataFrame)
     if "Value Dictionary" in metadatakeys(_df)
         return metadata(_df,"Value Dictionary")
     end
+    return nothing
 end
 
 """
