@@ -34,6 +34,11 @@ Returns data label from the `l` Label object.
 function datalab(l::Label)
     return l.data
 end
+function datalab(df::AbstractDataFrame)
+    fn = metadata(df,"Labels")
+    labels = load_object(fn)
+    return labels.data
+end
 
 """
     varlab(l::Label,v::Symbol)
