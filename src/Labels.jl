@@ -20,9 +20,9 @@ mutable struct Label
     data::String
     var::Dict{Symbol,String}
     val::Dict{Symbol,Dict}
-    valkey::Dict{Symbol,Symbol}
+    valfmt::Dict{Symbol,Symbol}
 
-    Label(data, var, val, valkey) = new(data, var, val, valkey)
+    Label(data, var, val, valkey) = new(data, var, val, valfmt)
     Label() = Label("", Dict(), Dict(), Dict() )
 end
 
@@ -64,7 +64,7 @@ end
 Returns the value label associated with `val` value for the `v` variable in the `l` Labels.
 """
 function vallab(l::Label, v::Symbol, val)
-    lname = val_key(l, v)
+    lname = valfmt(l, v)
 
     if lname == nothing
         return string(val)
@@ -73,16 +73,30 @@ function vallab(l::Label, v::Symbol, val)
     return haskey(l.val, lname) && haskey(l.val[lname], val) ? l.val[lname][val] : string(val)
 end
 
-function save_labels(l::Label, filename::String = "")
+function valfmt(l::Label, v::Symbol)
+    if haskey(l.valfmt,v)
+        return string(l.valfmt[v])
+    end
+    return ""
+end
+
+function save_labels(l::Label, df::AbstractDataFrame; filename::String = "")
     if filename == ""
         filename = "labels.jlfmt"
     end
 
     save_object(filename,l)
+    metadata!(df,"Labels",l, style=:note);
 end
 
 function load_labels(filename::String)
     return load_object(filename)
+end
+function load_labels(df::AbstractDataFrame)
+    fn = metadata(df,"Labels")
+    if fn != nothing || fn != ""
+        return load_labels(fn)
+    end
 end
 
 end # end of module
