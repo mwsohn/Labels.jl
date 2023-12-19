@@ -77,6 +77,27 @@ function vallab(l::Label, v::Symbol, val)
 
     return haskey(l.val, lname) && haskey(l.val[lname], val) ? l.val[lname][val] : string(val)
 end
+function vallab(indf::AbstractDataFrame,v::Symbol)
+    if "Labels" in metadatakeys(indf) 
+        labels = load_object(metadata(indf,"Labels"))
+        return labels.val[valfmt(labels.valfmt,v)]
+    end
+    return nothing
+end
+function vallab(indf::AbstractDataFrame,vv::Vector{Symbol})
+    if "Labels" in metadatakeys(indf) 
+        labels = load_object(metadata(indf,"Labels"))
+        vdict = Dict()
+        for v in vv
+            vf = valfmt(labels,v)
+            if vf != nothing && haskey(labels.val, vf)
+                vdict[v] = labels.val[vf]
+            end
+        end 
+        return vdict
+    end
+    return nothing
+end
 
 function valfmt(l::Label, v::Symbol)
     if haskey(l.valfmt,v)
