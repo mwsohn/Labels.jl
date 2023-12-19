@@ -93,10 +93,13 @@ function load_labels(filename::String)
     return load_object(filename)
 end
 function load_labels(df::AbstractDataFrame)
-    fn = metadata(df,"Labels")
-    if fn != nothing || fn != ""
+    if "Labels" in metadatakeys(df)
+        fn = metadata(df,"Labels")
+    end
+    if fn != nothing && fn != ""
         return load_labels(fn)
     end
+    return nothing
 end
 
 end # end of module
