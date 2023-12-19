@@ -80,7 +80,7 @@ end
 function vallab(indf::AbstractDataFrame,v::Symbol)
     if "Labels" in metadatakeys(indf) 
         labels = load_object(metadata(indf,"Labels"))
-        return labels.val[valfmt(labels.valfmt,v)]
+        return labels.val[valfmt(labels,v)]
     end
     return nothing
 end
