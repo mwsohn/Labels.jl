@@ -80,7 +80,9 @@ end
 function vallab(indf::AbstractDataFrame,v::Symbol)
     if "Labels" in metadatakeys(indf) 
         labels = load_object(metadata(indf,"Labels"))
-        return labels.val[valfmt(labels,v)]
+        if valfmt(labels,v) != nothing
+            return labels.val[valfmt(labels,v)]
+        end
     end
     return nothing
 end
@@ -103,7 +105,7 @@ function valfmt(l::Label, v::Symbol)
     if haskey(l.valfmt,v)
         return string(l.valfmt[v])
     end
-    return ""
+    return nothing
 end
 
 function save_labels(l::Label, df::AbstractDataFrame; filename::String = "")
