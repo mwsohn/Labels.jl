@@ -6,7 +6,7 @@ module Labels
 ##
 ################################################################################
 
-using DataFrames, DataAPI
+using DataFrames, DataAPI, JLD2
 
 ##############################################################################
 ##
@@ -14,7 +14,7 @@ using DataFrames, DataAPI
 ##
 ##############################################################################
 
-export Label, datalab, varlab, varlabs, vallab, save_labels, load_labels
+export Label, datalab, varlab, varlabs, vallab, valfmt, save_labels, load_labels
 
 mutable struct Label
     data::String
@@ -22,7 +22,7 @@ mutable struct Label
     val::Dict{Symbol,Dict}
     valfmt::Dict{Symbol,Symbol}
 
-    Label(data, var, val, valkey) = new(data, var, val, valfmt)
+    Label(data, var, val, valfmt) = new(data, var, val, valfmt)
     Label() = Label("", Dict(), Dict(), Dict() )
 end
 
@@ -33,6 +33,11 @@ Returns data label from the `l` Label object.
 """
 function datalab(l::Label)
     return l.data
+end
+function datalab(df::AbstractDataFrame)
+    fn = metadata(df,"Labels")
+    labels = load_object(fn)
+    return labels.data
 end
 
 """
@@ -72,12 +77,35 @@ function vallab(l::Label, v::Symbol, val)
 
     return haskey(l.val, lname) && haskey(l.val[lname], val) ? l.val[lname][val] : string(val)
 end
+function vallab(indf::AbstractDataFrame,v::Symbol)
+    if "Labels" in metadatakeys(indf) 
+        labels = load_object(metadata(indf,"Labels"))
+        if valfmt(labels,v) != nothing
+            return labels.val[valfmt(labels,v)]
+        end
+    end
+    return nothing
+end
+function vallab(indf::AbstractDataFrame,vv::Vector{Symbol})
+    if "Labels" in metadatakeys(indf) 
+        labels = load_object(metadata(indf,"Labels"))
+        vdict = Dict()
+        for v in vv
+            vf = valfmt(labels,v)
+            if vf != nothing && haskey(labels.val, vf)
+                vdict[v] = labels.val[vf]
+            end
+        end 
+        return vdict
+    end
+    return nothing
+end
 
 function valfmt(l::Label, v::Symbol)
     if haskey(l.valfmt,v)
         return string(l.valfmt[v])
     end
-    return ""
+    return nothing
 end
 
 function save_labels(l::Label, df::AbstractDataFrame; filename::String = "")
