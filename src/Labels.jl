@@ -127,6 +127,7 @@ function load_labels(filename::String)
     return load_object(filename)
 end
 function load_labels(df::AbstractDataFrame)
+    fn = nothing
     if "Labels" in metadatakeys(df)
         fn = metadata(df,"Labels")
     end
