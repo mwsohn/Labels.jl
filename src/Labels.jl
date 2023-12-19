@@ -35,10 +35,11 @@ function datalab(l::Label)
     return l.data
 end
 function datalab(df::AbstractDataFrame)
+    fn = nothing
     if "Labels" in metadatakeys(df)
         fn = metadata(df,"Labels")
     end
-    if file_exists(fn)
+    if fn != nothing && file_exists(fn)
         labels = load_object(fn)
         return labels.data
     end
