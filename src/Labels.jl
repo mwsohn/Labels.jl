@@ -54,6 +54,19 @@ Produces the variable description associated with the `v` variable in the `l` La
 function varlab(l::Label, v::Symbol)
     return haskey(l.var, v) ? l.var[v] : string(v)
 end
+function varlab(df::AbstractDataFrame, v::Syumbol)
+    fn = nothing
+    if "Labels" in metadatakeys(df)
+        fn = metadata(df,"Labels")
+    end
+
+    if fn != nothing && file_exists(fn)
+        labels = load_object(fn)
+        return labels.var[v]
+    end
+
+    return nothing
+end
 
 """
     varlabs(l::Label,vv::Vector{Symbol})
