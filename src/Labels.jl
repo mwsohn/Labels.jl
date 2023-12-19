@@ -22,7 +22,7 @@ mutable struct Label
     val::Dict{Symbol,Dict}
     valfmt::Dict{Symbol,Symbol}
 
-    Label(data, var, val, valkey) = new(data, var, val, valfmt)
+    Label(data, var, val, valfmt) = new(data, var, val, valfmt)
     Label() = Label("", Dict(), Dict(), Dict() )
 end
 
