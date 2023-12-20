@@ -137,7 +137,7 @@ function save_labels(l::Label, df::AbstractDataFrame; filename::String = "")
 end
 
 function load_labels(filename::String)
-    return load_object(filename)
+    return JLD2.load_object(filename)
 end
 function load_labels(df::AbstractDataFrame)
     fn = nothing
