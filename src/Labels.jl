@@ -62,10 +62,13 @@ function varlab(df::AbstractDataFrame, v::Symbol)
 
     if fn != nothing && isfile(fn)
         labels = load_object(fn)
-        return labels.var[v]
+        if haskey(labels.var,v)
+            return labels.var[v]
+        end
     end
 
-    return nothing
+    # variable does not exist
+    return string(v)
 end
 
 """
