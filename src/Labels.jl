@@ -39,7 +39,7 @@ function datalab(df::AbstractDataFrame)
     if "Labels" in metadatakeys(df)
         fn = metadata(df,"Labels")
     end
-    if fn != nothing && file_exists(fn)
+    if fn != nothing && isfile(fn)
         labels = load_object(fn)
         return labels.data
     end
@@ -60,7 +60,7 @@ function varlab(df::AbstractDataFrame, v::Symbol)
         fn = metadata(df,"Labels")
     end
 
-    if fn != nothing && file_exists(fn)
+    if fn != nothing && isfile(fn)
         labels = load_object(fn)
         return labels.var[v]
     end
