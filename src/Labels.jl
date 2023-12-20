@@ -122,7 +122,7 @@ end
 
 function valfmt(l::Label, v::Symbol)
     if haskey(l.valfmt,v)
-        return string(l.valfmt[v])
+        return l.valfmt[v]
     end
     return nothing
 end
