@@ -132,11 +132,15 @@ end
 
 function save_labels(l::Label, df::AbstractDataFrame; filename::String = "")
     if filename == ""
-        filename = "labels.jlfmt"
+        if "Labels" in metadatakeys!(df)
+            filename = metadata(df,"Labels")
+        else
+            filename = "labels.jlfmt"
+        end
     end
 
     save_object(filename,l)
-    metadata!(df,"Labels",l, style=:note);
+    metadata!(df,"Labels",filename, style=:note);
 end
 
 function load_labels(filename::String)
