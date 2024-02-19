@@ -91,6 +91,10 @@ end
 Returns the value label associated with `val` value for the `v` variable in the `l` Labels.
 """
 function vallab(l::Label, v::Symbol, val)
+    if l == nothing
+        return string(val)
+    end
+
     lname = valfmt(l, v)
 
     if lname == nothing
@@ -100,6 +104,10 @@ function vallab(l::Label, v::Symbol, val)
     return haskey(l.val, lname) && haskey(l.val[lname], val) ? l.val[lname][val] : string(val)
 end
 function vallab(l::Label, v::Symbol, vals)
+    if l == nothing
+        return string.(vals)
+    end
+    
     lname = valfmt(l, v)
 
     if lname == nothing
