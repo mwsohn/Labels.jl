@@ -87,6 +87,9 @@ end
 
 """
     vallab(l::Label,v::Symbol,val)
+    vallab(l::Label, v::Symbol, vals::Vector)
+    vallab(df::AbstractDataFrame, v::Symbol)
+    vallab(df::AbstractDataFrame, v::Vector{Symbol})
 
 Returns the value label associated with `val` value for the `v` variable in the `l` Labels.
 """
