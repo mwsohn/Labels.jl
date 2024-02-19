@@ -14,7 +14,7 @@ using DataFrames, DataAPI, JLD2
 ##
 ##############################################################################
 
-export Label, datalab, varlab, varlabs, vallab, valfmt, save_labels, load_labels
+export Label, datalab, varlab, varlabs, vallab, vallabs, valfmt, save_labels, load_labels
 
 mutable struct Label
     data::String
